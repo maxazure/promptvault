@@ -12,7 +12,8 @@ RUN apt-get update && apt-get install -y \
 # 安装 Python 依赖
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install gunicorn
+# 确保安装必要的包
+RUN pip install --no-cache-dir gunicorn PyMySQL
 
 # 复制项目文件
 COPY . .
