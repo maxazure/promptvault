@@ -5,6 +5,10 @@ promptvault/
 ├── .clinerules            # 项目规则配置文件
 ├── .clineignore           # 忽略文件配置
 ├── .env                   # 环境变量文件
+├── .env.example           # 环境变量示例文件
+├── .gitignore             # Git忽略文件配置
+├── Dockerfile             # Docker构建文件
+├── docker-compose.yml     # Docker Compose配置
 ├── config.py              # 应用配置
 ├── README.md              # 项目说明
 ├── requirements.txt       # Python依赖
@@ -67,6 +71,9 @@ promptvault/
     ├── script.py.mako
     └── versions/
         └── 8fa90a7eef81_initial_database_setup_with_user_.py
+├── .github/               # GitHub配置
+    └── workflows/         # GitHub Actions工作流
+        └── docker-build-push.yml  # Docker构建和推送工作流
 ```
 
 ## 主要功能模块
