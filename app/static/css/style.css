@@ -1,0 +1,79 @@
+/* Custom styles for PromptVault */
+
+/* Main layout */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Card tweaks */
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Prompt display */
+pre {
+    font-family: inherit;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* Tags & Categories */
+.badge {
+    font-weight: normal;
+    padding: 0.35em 0.65em;
+}
+
+/* Search page */
+.search-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Admin Dashboard */
+.dashboard-card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Responsive tables */
+@media (max-width: 768px) {
+    .table-responsive {
+        overflow-x: auto;
+    }
+}
+
+/* Form enhancements */
+textarea.form-control {
+    min-height: 120px;
+}
+
+/* Custom buttons */
+.btn-copy {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-copy:hover {
+    background-color: #5a6268;
+    color: white;
+}
+
+/* Admin form layout */
+.form-select[multiple] {
+    min-height: 200px;
+}

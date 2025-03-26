@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - PromptVault{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Admin Dashboard</h1>
+    
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Prompts</h5>
+                    <p class="card-text display-4">{{ prompts_count }}</p>
+                    <a href="{{ url_for('admin.prompts') }}" class="btn btn-primary">Manage Prompts</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Categories</h5>
+                    <p class="card-text display-4">{{ categories_count }}</p>
+                    <a href="{{ url_for('admin.categories') }}" class="btn btn-primary">Manage Categories</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Tags</h5>
+                    <p class="card-text display-4">{{ tags_count }}</p>
+                    <a href="{{ url_for('admin.tags') }}" class="btn btn-primary">Manage Tags</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            Quick Actions
+        </div>
+        <div class="card-body">
+            <div class="d-flex gap-2">
+                <a href="{{ url_for('admin.create_prompt') }}" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> Add New Prompt
+                </a>
+                <a href="{{ url_for('admin.create_category') }}" class="btn btn-outline-primary">
+                    <i class="bi bi-plus-circle"></i> Add New Category
+                </a>
+                <a href="{{ url_for('admin.create_tag') }}" class="btn btn-outline-primary">
+                    <i class="bi bi-plus-circle"></i> Add New Tag
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

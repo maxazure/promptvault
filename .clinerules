@@ -1,0 +1,96 @@
+# PromptVault Project Rules
+
+## Code Style
+
+- Follow PEP 8 style guidelines for Python code
+- Use 4 spaces for indentation (no tabs)
+- Maximum line length: 100 characters
+- Use meaningful variable and function names
+- Include docstrings for all functions, classes, and modules
+- Organize imports in the following order:
+  1. Standard library imports
+  2. Related third-party imports
+  3. Local application/library specific imports
+- Use single quotes for strings unless double quotes avoid backslashes
+
+## Git Workflow
+
+- Use feature branches for all new features and bug fixes
+- Branch naming convention: `feature/feature-name` or `bugfix/issue-description`
+- Make small, focused commits with clear messages
+- Write commit messages in imperative mood (e.g., "Add search functionality" not "Added search functionality")
+- Keep pull requests focused on a single feature or bug fix
+- Rebase feature branches on main before submitting pull requests
+
+## Project Structure
+
+- Maintain the modular project structure (blueprints, models, templates)
+- Keep application logic in the appropriate modules
+- Store all database models in the app/models directory
+- Store all routes in the app/routes directory
+- Maintain separation of concerns between models, views, and templates
+
+## Testing
+
+- Write tests for all new features and bug fixes
+- Maintain minimum test coverage of 80%
+- Run tests before submitting pull requests
+- Use pytest fixtures to keep tests DRY
+- Mock external dependencies in tests
+
+## Database
+
+- Use SQLAlchemy for all database operations
+- Define explicit table names in models
+- Include created_at and updated_at timestamps for all models where appropriate
+- Use migrations for all database schema changes
+- Don't use raw SQL queries unless absolutely necessary
+
+## Security
+
+- Never store sensitive data in code or version control
+- Use environment variables for configuration
+- Always validate and sanitize user input
+- Use parameterized queries to prevent SQL injection
+- Keep dependencies updated to avoid security vulnerabilities
+
+## API Design
+
+- Follow RESTful principles for API endpoints
+- Use HTTP methods appropriately (GET, POST, PUT, DELETE)
+- Return consistent JSON response formats
+- Include pagination for list endpoints
+- Provide comprehensive error responses
+
+## Documentation
+
+- Keep the README updated with setup instructions and usage examples
+- Document all API endpoints
+- Include inline comments for complex logic
+- Use type hints in function signatures
+
+## Performance
+
+- Optimize database queries for performance
+- Use indexing appropriately
+- Implement caching for frequently accessed data
+- Use lazy loading for related database objects
+
+## Dependencies
+
+- Keep dependencies to a minimum
+- Pin exact versions in requirements.txt
+- Regularly update dependencies for security fixes
+- Document the purpose of each dependency
+
+## Development Environment
+
+- Use a virtual environment for development
+- Set up pre-commit hooks for linting and formatting
+- Configure editor to respect .editorconfig settings
+- Develop with debug mode enabled
+
+## 文档
+
+ - 在每次新建或删除文件后，都要更新 PROJECT_STRUCTURE.md 文件
+ - 在添加文件之前 请参考 PROJECT_STRUCTURE.md 文件来了解项目结构

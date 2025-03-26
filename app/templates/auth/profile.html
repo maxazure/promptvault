@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block title %}个人资料 - PromptVault{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <img src="{{ url_for('static', filename='images/avatar.svg') }}" 
+                         class="rounded-circle img-fluid mb-3" 
+                         style="width: 150px;"
+                         id="userProfileAvatar" 
+                         alt="用户头像">
+                    <h5 class="my-3" id="userProfileName">加载中...</h5>
+                    <p class="text-muted mb-1" id="userProfileEmail">加载中...</p>
+                    <p class="text-muted mb-4">PromptVault 用户</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">基本信息</div>
+                <div class="card-body">
+                    <form id="profileForm">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">姓名</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="您的姓名">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">邮箱</label>
+                            <input type="email" class="form-control" id="email" name="email" readonly>
+                            <small class="text-muted">邮箱地址不可更改</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">注册时间</label>
+                            <p class="form-control-plaintext" id="createdAt">加载中...</p>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">保存更改</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">账户操作</div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('auth.change_password_page') }}" class="btn btn-outline-primary">修改密码</a>
+                        <button id="profileLogoutBtn" class="btn btn-outline-danger">退出登录</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load user profile data
+        loadUserProfile();
+        
+        // Setup profile form submission
+        const profileForm = document.getElementById('profileForm');
+        if (profileForm) {
+            profileForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                updateUserProfile();
+            });
+        }
+        
+        // Setup logout button
+        const logoutBtn = document.getElementById('profileLogoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function() {
+                if (window.handleLogout) {
+                    window.handleLogout();
+                } else {
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('access_token');
+                    localStorage.removeItem('refresh_token');
+                    window.location.href = '/auth/login';
+                }
+            });
+        }
+    });
+
+    function loadUserProfile() {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            window.location.href = '/auth/login';
+            return;
+        }
+        
+        $.ajax({
+            url: '/auth/profile/data',
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            success: function(response) {
+                // Update profile UI with user data
+                document.getElementById('userProfileName').textContent = response.name || '未设置姓名';
+                document.getElementById('userProfileEmail').textContent = response.email;
+                document.getElementById('name').value = response.name || '';
+                document.getElementById('email').value = response.email;
+                
+                // Format and display creation date
+                const createdDate = new Date(response.created_at);
+                document.getElementById('createdAt').textContent = createdDate.toLocaleString();
+            },
+            error: function(xhr) {
+                console.error('Failed to load profile:', xhr.responseJSON);
+                if (xhr.status === 401) {
+                    // Redirect to login if unauthorized
+                    window.location.href = '/auth/login';
+                } else {
+                    showAlert('加载个人资料失败，请稍后重试', 'danger');
+                }
+            }
+        });
+    }
+
+    function updateUserProfile() {
+        const token = localStorage.getItem('access_token');
+        if (!token) return;
+        
+        const name = document.getElementById('name').value;
+        
+        $.ajax({
+            url: '/auth/profile',
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            contentType: 'application/json',
+            data: JSON.stringify({
+                name: name
+            }),
+            success: function(response) {
+                showAlert('个人资料已更新', 'success');
+                document.getElementById('userProfileName').textContent = response.user.name || '未设置姓名';
+            },
+            error: function(xhr) {
+                console.error('Failed to update profile:', xhr.responseJSON);
+                showAlert(xhr.responseJSON?.message || '更新个人资料失败', 'danger');
+            }
+        });
+    }
+
+    function showAlert(message, type = 'info') {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.role = 'alert';
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+        
+        const mainContainer = document.querySelector('main.container');
+        if (mainContainer) {
+            mainContainer.insertBefore(alertDiv, mainContainer.firstChild);
+        }
+        
+        // Auto dismiss after 5 seconds
+        setTimeout(() => {
+            alertDiv.classList.remove('show');
+            setTimeout(() => alertDiv.remove(), 300);
+        }, 5000);
+    }
+</script>
+{% endblock %}
